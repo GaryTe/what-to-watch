@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchDataComments } from '../../api-actions/api-actions';
+import { fetchDataComments, postDataForAddNewComments } from '../../api-actions/api-actions';
 import { DataComments } from '../../../types/store/store';
 import { NameSpace } from '../../../const/const';
 
@@ -14,6 +14,10 @@ export const getComments = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchDataComments.fulfilled, (state, action) => {
+        state.comments = action.payload;
+      });
+    builder
+      .addCase(postDataForAddNewComments.fulfilled, (state, action) => {
         state.comments = action.payload;
       });
   }

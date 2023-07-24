@@ -1,10 +1,13 @@
+import {PropsWithChildren} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import { Path } from '../../const/const';
 import { useAppSelector, useAppDispatch } from '../../hooks/use-store/use-store';
 import { status, dataUser } from '../../store/selectors/data-authorization/selectors';
 import { deleteAuthorization } from '../../store/api-actions/api-actions';
 
-function Header(): JSX.Element {
+type HeaderProps = PropsWithChildren
+
+function Header({children}: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const statusAuthorization = useAppSelector(status);
@@ -25,6 +28,7 @@ function Header(): JSX.Element {
         </Link>
       </div>
 
+      {children}
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">

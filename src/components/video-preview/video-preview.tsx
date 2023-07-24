@@ -2,9 +2,10 @@ import {useEffect, useRef} from 'react';
 
 type VideoPreviewProps = {
   valueVideo: string;
+  id: number;
 }
 
-function VideoPreview({valueVideo}: VideoPreviewProps): JSX.Element {
+function VideoPreview({valueVideo, id}: VideoPreviewProps): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -14,9 +15,11 @@ function VideoPreview({valueVideo}: VideoPreviewProps): JSX.Element {
       return;
     }
 
-    //videoRef.current?.addEventListener('loadedmetadata', () => {
-    videoRef.current?.play();
-    //});
+    const {current} = videoRef;
+
+    current?.addEventListener('loadeddata', () => {
+      setTimeout(() => {current?.play();}, 1000);
+    });
 
     return () => {
       isMounted = false;

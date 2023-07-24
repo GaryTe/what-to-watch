@@ -51,3 +51,54 @@ export const getScoreFilm = (scoreFilm: number) => {
 
 
 export const gettingTranslatedDate = (date: string) => dayjs (date).format ('MMMM DD, YYYY');
+
+
+export const returnListNumber = (
+  value: number
+) =>{
+  let counter = 0;
+  const items = [];
+
+  while(counter <= value) {
+    counter += 1;
+
+    items.push(counter);
+  }
+  return items;
+};
+
+
+export const chengeNoActive = (
+  rating: number,
+  text: string | undefined,
+  chengeActive: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  if(rating > 0 && text !== undefined && text.length > 50) {
+    chengeActive(false);
+  }
+
+  if(rating === 0 || (text !== undefined && text.length <= 50)) {
+    chengeActive(true);
+  }
+};
+
+export const translateTime = (dataTime: number) => {
+  let time = '';
+
+  if(dataTime <= 60) {time = `-00:00:${dataTime}`;}
+
+  if(dataTime > 60 && dataTime < 3600) {
+    const minute = Math.round(dataTime / 60);
+
+    time = `-00:${minute}:${dataTime}`;
+  }
+
+  if(dataTime >= 3600) {
+    const minute = Math.round(dataTime / 60);
+    const hour = Math.round(dataTime / 3600);
+
+    time = `-${hour}:${minute}:${dataTime}`;
+  }
+
+  return time;
+};

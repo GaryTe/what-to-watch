@@ -2,6 +2,7 @@ import { NameSpace } from '../../../const/const';
 import { RootState } from '../../../types/store/store';
 import { ListFilm } from '../../../types/types-response/types-response';
 
+export const filmsList = (state: RootState): ListFilm | null => state[NameSpace.ListFilm].listFilm;
 export const dataListFilm = (state: RootState): ListFilm | null => state[NameSpace.ListFilm].dataFilm;
 export const dataCounter = (state: RootState): number => state[NameSpace.ListFilm].counter;
 export const dataSortListFilm = (state: RootState): ListFilm | null => state[NameSpace.ListFilm].sortListFilm;

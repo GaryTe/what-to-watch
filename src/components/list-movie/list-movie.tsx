@@ -1,6 +1,6 @@
 import {AxiosInstance} from 'axios';
 import {AsyncThunk} from '@reduxjs/toolkit';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import VideoPreview from '../video-preview/video-preview';
 import { RootState } from '../../types/store/store';
@@ -27,6 +27,7 @@ type ListMovieProps = {
 
 function ListMovie({action, getDataFilms, filmId}: ListMovieProps): JSX.Element {
   const [isIndicator, setIsIndicator] = useState<number | boolean>(false);
+  const navigate = useNavigate();
   useRequestToServer<FetchDataListFilm | FetchDataSimilaFilms, null | number>(action, filmId);
 
   const listFilm = useAppSelector(getDataFilms);
@@ -42,11 +43,12 @@ function ListMovie({action, getDataFilms, filmId}: ListMovieProps): JSX.Element 
               className="small-film-card__image"
               onMouseOver={() => setIsIndicator(id)}
               onMouseOut={() => setIsIndicator(false)}
+              onClick={() => navigate(`/${Path.Film}${id}`)}
             >
               {!isIndicator || isIndicator !== id ?
-                <img src={previewImage} alt={name} width="280" height="175" />
+                <img src={previewImage} alt={name} width="280" height="175"/>
                 :
-                <VideoPreview valueVideo={previewVideoLink} />}
+                <VideoPreview valueVideo={previewVideoLink} id={id}/>}
             </div>
             <h3 className="small-film-card__title">
               <Link className="small-film-card__link" to={`/${Path.Film}${id}`}>{name}</Link>

@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {AxiosInstance} from 'axios';
 import {AsyncThunk} from '@reduxjs/toolkit';
 import Header from '../../components/header/header';
@@ -14,6 +14,7 @@ type FetchListFilmToWatch = AsyncThunk<ListFilm, undefined, {
 }>
 
 function MyList(): JSX.Element {
+  const navigate = useNavigate();
   useRequestToServer<FetchListFilmToWatch, null>(fetchListFilmToWatch);
   const listFilm = useAppSelector(dataListFilmToWatch);
 
@@ -21,14 +22,19 @@ function MyList(): JSX.Element {
     <div className="user-page">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <Header />
+        <Header>
+          <h1 className="page-title user-page__title" style={{position: 'relative'}}>
+            My list
+            <span className="user-page__film-count">{listFilm?.length}</span>
+          </h1>
+        </Header>
         <div className="catalog__films-list">
           {listFilm?.map((film) => {
             const {id, previewImage, name} = film;
 
             return (
               <article key={id} className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
+                <div className="small-film-card__image" onClick={() => navigate(`/${Path.Film}${id}`)}>
                   <img src={previewImage} alt={name} width="280" height="175" />
                 </div>
                 <h3 className="small-film-card__title">

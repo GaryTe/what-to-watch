@@ -14,7 +14,7 @@ export const getSimilaListFilm = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchDataSimilaFilms.fulfilled, (state, action) => {
-        state.listSimilaFilm = action.payload;
+        state.listSimilaFilm = action.payload.slice(0, 4);
       });
   }
 });

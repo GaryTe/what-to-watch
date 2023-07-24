@@ -1,5 +1,6 @@
+import {useRef, useState} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
-import {useForm, SubmitHandler} from 'react-hook-form';
+import {toast} from 'react-toastify';
 import { dataUser } from '../../types/request/request';
 import { postAuthorizatioDataUser } from '../../store/api-actions/api-actions';
 import { useAppDispatch } from '../../hooks/use-store/use-store';
@@ -10,18 +11,17 @@ type Location = {
   key: string;
 }
 
-type dataRegistration = {
-  userEmail: string;
-  userPassword: string;
-}
-
 function SignIn(): JSX.Element {
+  const refEmail = useRef<HTMLInputElement | null>(null);
+  const refPassword = useRef<HTMLInputElement | null>(null);
+  const [validation, setValidation] = useState({
+    email: 0,
+    password: 0
+  });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {state} = useLocation() as Location;
-
-  const {register, handleSubmit, formState:{errors}} = useForm<dataRegistration>();
 
   const goToMainPage = async (data: dataUser) => {
     try {
@@ -33,13 +33,22 @@ function SignIn(): JSX.Element {
     }
   };
 
-  const dataUsreForAuthorization: SubmitHandler<dataRegistration> = (data) => {
-    const dataForAuthorization: dataUser = {
-      email: data.userEmail,
-      password: data.userPassword
-    };
+  const dataUsreForAuthorization = () => {
+    if(refEmail.current && refPassword.current && validation.email && validation.password) {
+      const dataForAuthorization: dataUser = {
+        email: refEmail.current.value,
+        password: refPassword.current.value
+      };
 
-    goToMainPage(dataForAuthorization);
+      goToMainPage(dataForAuthorization);
+    } else {
+      toast.error('Check the correctness of the entered data.',
+        {
+          theme: 'colored',
+          autoClose: 4000
+        }
+      );
+    }
   };
 
   return(
@@ -57,29 +66,55 @@ function SignIn(): JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form" onSubmit={handleSubmit(dataUsreForAuthorization)}>
+        <form
+          action="#"
+          className="sign-in__form"
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            dataUsreForAuthorization();
+          }}
+        >
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
                 className="sign-in__input"
+                name='user-email'
                 type="email"
                 placeholder="Email address"
                 id="user-email"
-                {...register('userEmail', { required: 'В видите корректный email'})}
+                autoComplete='off'
+                onChange={(evt) => {
+                  if(evt.target.value.length === 1) {
+                    setValidation({...validation, email: 1});
+                  }
+                  if(evt.target.value.length === 0) {
+                    setValidation({...validation, email: 0});
+                  }
+                }}
+                ref={refEmail}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
-              <p className="custom-input__error">{errors.userEmail?.message}</p>
+              {!validation.email ? <p className="custom-input__error">В видите корректный email</p> : <p ></p>}
             </div>
             <div className="sign-in__field">
               <input
                 className="sign-in__input"
+                name='user-password'
                 type="password"
                 placeholder="Password"
                 id="user-password"
-                {...register('userPassword', {required: 'Параль состоит минимум из одной буквы и цифры.', pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/ })}
+                autoComplete='off'
+                onChange={(evt) => {
+                  if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/.test(evt.target.value)) {
+                    setValidation({...validation, password: 1});
+                  } else {
+                    setValidation({...validation, password: 0});
+                  }
+                }}
+                ref={refPassword}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
-              <p className="custom-input__error">{errors.userPassword?.message}</p>
+              {!validation.password ? <p className="custom-input__error">Параль состоит минимум из одной буквы и цифры.</p> : <p></p>}
             </div>
           </div>
           <div className="sign-in__submit">

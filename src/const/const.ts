@@ -2,7 +2,9 @@ export const enum Path {
   Main = '/',
   Film = 'films/',
   Login = '/login',
-  Mylist = '/mylist'
+  Mylist = '/mylist',
+  Review = '/review',
+  Player = 'player/'
 }
 
 

@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosInstance} from 'axios';
 import { PromoFilm, ListFilm, Comments, statusAuthorization } from '../../types/types-response/types-response';
-import { dataUser, DataForPost } from '../../types/request/request';
+import { dataUser, DataForPost, DataForAddNewComment } from '../../types/request/request';
 import { APIRoute } from '../../const/const';
 import { saveToken, dropToken } from '../../server/token/token';
 
@@ -109,6 +109,16 @@ export const addFilmToWatch = createAsyncThunk<PromoFilm, DataForPost, {
   'data/addFilmToWatch',
   async ({filmId, status}, {extra: api}) => {
     const {data} = await api.post<PromoFilm>(`${APIRoute.Favorite}/${filmId}/${status}`);
+    return data;
+  },
+);
+
+export const postDataForAddNewComments = createAsyncThunk<Comments, DataForAddNewComment, {
+  extra: AxiosInstance;
+}>(
+  'user/dataForAddNewComments',
+  async ({comment, rating, filmId}, {extra: api}) => {
+    const {data} = await api.post<Comments>(`${APIRoute.Comments}${filmId}`, {comment, rating});
     return data;
   },
 );

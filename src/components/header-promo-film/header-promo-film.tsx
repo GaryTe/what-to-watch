@@ -1,13 +1,16 @@
+import {useNavigate} from 'react-router-dom';
 import ButtonMyList from '../button-my-list/button-my-list';
 import { PromoFilm } from '../../types/types-response/types-response';
+import { Path } from '../../const/const';
 
 type HeaderPromoFilmProps = {
   dataHeaderPromoFilm: PromoFilm;
 }
 
 function HeaderPromoFilm({dataHeaderPromoFilm}: HeaderPromoFilmProps): JSX.Element {
+  const navigate = useNavigate();
 
-  const {id, posterImage, name, genre, released, rating, isFavorite} = dataHeaderPromoFilm;
+  const {id, posterImage, name, genre, released, rating, isFavorite, videoLink} = dataHeaderPromoFilm;
 
   return(
     <div className="film-card__wrap">
@@ -24,7 +27,11 @@ function HeaderPromoFilm({dataHeaderPromoFilm}: HeaderPromoFilmProps): JSX.Eleme
           </p>
 
           <div className="film-card__buttons">
-            <button className="btn btn--play film-card__button" type="button">
+            <button
+              className="btn btn--play film-card__button"
+              type="button"
+              onClick={() => navigate(`${Path.Player}${id}`, {state: {videoLink, path: Path.Main}})}
+            >
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>
               </svg>

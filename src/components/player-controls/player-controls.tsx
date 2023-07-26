@@ -22,8 +22,15 @@ function PlayerControls({video, reproduction}: PlayerControlsProps): JSX.Element
 
       if(reproduction === 'Play') {
         recordPlayer.addEventListener('loadeddata', () => {
-          time.textContent = Math.round(recordPlayer.duration).toString();
+          const dataValue = Math.round(recordPlayer.duration);
+          time.textContent = translateTime(dataValue).toString();
         });
+
+        if(recordPlayer.duration) {
+          const dataValue = Math.round(recordPlayer.duration);
+          time.textContent = translateTime(dataValue).toString();
+          toggler.style.left = '0%';
+        }
       }
 
       if(reproduction === 'Pause') {

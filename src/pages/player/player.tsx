@@ -59,8 +59,12 @@ function Player(): JSX.Element {
         type="button"
         className="player__exit"
         onClick={() => {
-          setReproduction('Play');
-          state?.path && navigate(state.path);
+          if(reproduction === 'Pause') {
+            setReproduction('Play');
+            state?.path && navigate(state.path);
+          } else {
+            state?.path && navigate(state.path);
+          }
         }}
       >
         Exit

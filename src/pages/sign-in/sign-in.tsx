@@ -15,8 +15,8 @@ function SignIn(): JSX.Element {
   const refEmail = useRef<HTMLInputElement | null>(null);
   const refPassword = useRef<HTMLInputElement | null>(null);
   const [validation, setValidation] = useState({
-    email: 0,
-    password: 0
+    email: 1,
+    password: 1
   });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -80,10 +80,13 @@ function SignIn(): JSX.Element {
                 className="sign-in__input"
                 name='user-email'
                 type="email"
-                placeholder="Email address"
+                placeholder="email"
                 id="user-email"
-                autoComplete='off'
+                autoComplete="off"
                 onChange={(evt) => {
+                  if(evt.target.value && !validation.email) {
+                    setValidation({...validation, email: 1});
+                  }
                   if(evt.target.value.length === 1) {
                     setValidation({...validation, email: 1});
                   }
@@ -101,9 +104,9 @@ function SignIn(): JSX.Element {
                 className="sign-in__input"
                 name='user-password'
                 type="password"
-                placeholder="Password"
+                placeholder="password"
                 id="user-password"
-                autoComplete='off'
+                autoComplete="off"
                 onChange={(evt) => {
                   if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/.test(evt.target.value)) {
                     setValidation({...validation, password: 1});

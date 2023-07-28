@@ -34,7 +34,7 @@ function SignIn(): JSX.Element {
   };
 
   const dataUsreForAuthorization = () => {
-    if(refEmail.current && refPassword.current && validation.email && validation.password) {
+    if(refEmail.current?.value && refPassword.current?.value && validation.email && validation.password) {
       const dataForAuthorization: dataUser = {
         email: refEmail.current.value,
         password: refPassword.current.value

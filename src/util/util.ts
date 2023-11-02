@@ -71,7 +71,7 @@ export const returnListNumber = (
 export const chengeNoActive = (
   rating: number,
   text: string | undefined,
-  chengeActive: React.Dispatch<React.SetStateAction<boolean>>
+  chengeActive: React.Dispatch<React.SetStateAction<boolean>> | jest.Mock<boolean, [isBoolean: boolean]>
 ) => {
   if(rating > 0 && text !== undefined && text.length > 50) {
     chengeActive(false);

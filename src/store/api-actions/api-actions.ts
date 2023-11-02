@@ -73,10 +73,11 @@ export const deleteAuthorization = createAsyncThunk<void, undefined, {
   async (_arg, {extra: api}) => {
     try {
       await api.delete(APIRoute.Logout);
-      dropToken();
     } catch(error) {
       throw new Error ('Удалить аккаунт не удалось.');
     }
+
+    dropToken();
   },
 );
 

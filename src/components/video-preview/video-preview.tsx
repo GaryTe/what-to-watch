@@ -32,6 +32,7 @@ function VideoPreview({valueVideo, id}: VideoPreviewProps): JSX.Element {
       width="280"
       height="175"
       ref={videoRef}
+      data-testid="video"
     >
     </video>
   );

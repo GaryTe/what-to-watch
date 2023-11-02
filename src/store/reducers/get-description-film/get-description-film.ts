@@ -11,8 +11,13 @@ export const getDescriptionFilm = createSlice({
   name: NameSpace.DetailsFilm,
   initialState,
   reducers: {},
-  extraReducers(builder) {
+  extraReducers:(builder) => {
     builder
+      .addCase(fetchDataWithDetailsFilm.pending, (state) => {
+        if(state.descriptionFilm) {
+          state.descriptionFilm = null;
+        }
+      })
       .addCase(fetchDataWithDetailsFilm.fulfilled, (state, action) => {
         state.descriptionFilm = action.payload;
       });

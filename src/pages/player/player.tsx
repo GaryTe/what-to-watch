@@ -78,6 +78,7 @@ function Player(): JSX.Element {
             type="button"
             className="player__play"
             onClick={() => reproduction === 'Play' ? setReproduction('Pause') : setReproduction('Play')}
+            role={reproduction}
           >
             <svg viewBox="0 0 19 19" width="19" height="19">
               {reproduction === 'Play' ? <use xlinkHref="#play-s"></use> : <use xlinkHref="#pause"></use>}
@@ -90,6 +91,7 @@ function Player(): JSX.Element {
             type="button"
             className="player__full-screen"
             onClick={() => nameSize === 'Full screen' ? setNameSize('Small screen') : setNameSize('Full screen')}
+            role={nameSize}
           >
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>

@@ -38,7 +38,10 @@ function ListMovie({action, getDataFilms, filmId}: ListMovieProps): JSX.Element 
         const {id, previewImage, name, previewVideoLink} = dataFilm;
 
         return(
-          <article key={id} className="small-film-card catalog__films-card">
+          <article
+            key={id}
+            className="small-film-card catalog__films-card"
+          >
             <div
               className="small-film-card__image"
               onMouseOver={() => setIsIndicator(id)}
